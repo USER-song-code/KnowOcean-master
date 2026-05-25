@@ -1,0 +1,50 @@
+# --- Build output ---
+**/target/
+**/build/
+**/dist/
+**/out/
+
+# --- IDE ---
+.idea/
+*.iml
+*.iws
+*.ipr
+.vscode/
+.classpath
+.project
+.settings/
+.apt_generated
+.factorypath
+.springBeans
+.sts4-cache
+/nbproject/private/
+/nbbuild/
+/nbdist/
+/.nb-gradle/
+
+# --- OS ---
+.DS_Store
+Thumbs.db
+
+# --- Environment ---
+.env
+.env.local
+.env.*.local
+
+# --- Logs ---
+*.log
+
+# --- Agent / Skill 框架文件（不提交） ---
+/.agent
+/.agents
+/.claude
+/.shared
+/card-shwocase
+/.trae
+/.qoder
+/video-backgrounds
+/skills-local.json
+/skills-lock.json
+
+# --- 本地文件 ---
+/暂存文件
