@@ -320,8 +320,8 @@ spring.ai.openai.api-key: ${DASHSCOPE_API_KEY}
 storage:
   minio:
     endpoint: http://localhost:9000
-    access-key: minioadmin
-    secret-key: minioadmin
+    access-key: minio-access-key
+    secret-key: minio-access-key
 
 # Elasticsearch
 elasticsearch:
