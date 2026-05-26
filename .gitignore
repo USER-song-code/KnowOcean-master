@@ -1,0 +1,29 @@
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# Build
+KnowOcean -master/KnowOcean-backend/target/
+
+# Agent/Trae
+.agents/
+.trae/
+skills-lock.json
+
+# Temp files
+暂存文件/
+logs/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment
+.env
+.env.development
+*.env.local
+
+# Dev config (contains API keys)
+**/application-dev.yml
+**/application-dev.yaml
