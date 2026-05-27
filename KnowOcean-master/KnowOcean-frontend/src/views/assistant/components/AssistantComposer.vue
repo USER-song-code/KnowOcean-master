@@ -170,7 +170,7 @@ defineExpose({ focus, setText })
 .acx {
   flex-shrink: 0;
   padding: 18px 24px 22px;
-  background: linear-gradient(to top, #fff 70%, rgba(255, 255, 255, 0));
+  background: linear-gradient(to top, var(--surface-white) 70%, rgba(20, 20, 25, 0));
   position: relative;
   z-index: 4;
 }
@@ -182,7 +182,7 @@ defineExpose({ focus, setText })
 
 /* Shell */
 .acx__shell {
-  background: #fff;
+  background: var(--surface-white);
   border: 1.5px solid var(--border-default);
   border-radius: 16px;
   padding: 12px 14px 10px;
@@ -281,7 +281,7 @@ defineExpose({ focus, setText })
 }
 
 .acx__kb-select option {
-  background: #fff;
+  background: var(--surface-white);
   color: var(--text-primary);
 }
 
@@ -417,13 +417,13 @@ defineExpose({ focus, setText })
 .acx__btn--send:disabled {
   opacity: 0.45;
   cursor: not-allowed;
-  background: linear-gradient(135deg, #94a3b8, #64748b);
+  background: linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.05));
   box-shadow: none;
 }
 
 .acx__btn--abort {
   color: #dc2626;
-  background: #fff;
+  background: var(--surface-white);
   border: 1px solid rgba(239, 68, 68, 0.35);
 }
 

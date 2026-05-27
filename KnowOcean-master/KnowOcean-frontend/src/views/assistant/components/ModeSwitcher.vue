@@ -80,7 +80,7 @@ function set(m: AssistantToolMode) {
   background: linear-gradient(135deg, var(--brand-primary), var(--brand-primary-dark));
   box-shadow:
     0 3px 10px rgba(74, 144, 217, 0.25),
-    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    inset 0 1px 0 rgba(255,255,255,0.06);
   transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), background 0.3s ease;
 }
 
@@ -89,7 +89,7 @@ function set(m: AssistantToolMode) {
   background: linear-gradient(135deg, var(--brand-accent), var(--brand-accent-dark));
   box-shadow:
     0 3px 10px rgba(92, 201, 193, 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    inset 0 1px 0 rgba(255,255,255,0.06);
 }
 
 .mode-switcher__btn {

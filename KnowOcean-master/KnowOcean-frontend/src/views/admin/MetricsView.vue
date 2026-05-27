@@ -689,7 +689,7 @@ onMounted(() => {
   display: flex;
   gap: 4px;
   margin-bottom: 20px;
-  background: #f1f5f9;
+  background: var(--surface-muted);
   border-radius: 10px;
   padding: 4px;
   width: fit-content;
@@ -710,7 +710,7 @@ onMounted(() => {
   color: var(--text-primary);
 }
 .period-tab.active {
-  background: #fff;
+  background: var(--surface-white);
   color: #3b82f6;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
 }
@@ -736,19 +736,19 @@ onMounted(() => {
   color: var(--text-muted);
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  border-bottom: 2px solid #e2e8f0;
+  border-bottom: 2px solid var(--border-default);
   white-space: nowrap;
 }
 .rank-table td {
   padding: 14px;
-  border-bottom: 1px solid #f1f5f9;
+  border-bottom: 1px solid var(--border-subtle);
   color: var(--text-primary);
 }
 .rank-table tbody tr {
   transition: background 0.15s;
 }
 .rank-table tbody tr:hover {
-  background: #f8fafc;
+  background: var(--surface-subtle);
 }
 .rank-table tbody tr:last-child td {
   border-bottom: none;
@@ -787,7 +787,7 @@ onMounted(() => {
   font-size: 12px;
   font-weight: 700;
   color: var(--text-muted);
-  background: #f1f5f9;
+  background: var(--surface-muted);
 }
 .rank-badge--gold {
   background: linear-gradient(135deg, #fbbf24, #f59e0b);

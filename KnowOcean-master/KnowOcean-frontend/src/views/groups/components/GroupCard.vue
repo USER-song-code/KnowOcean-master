@@ -48,7 +48,7 @@ const emit = defineEmits<{
   position: relative;
   overflow: hidden;
   cursor: pointer;
-  background: rgba(255, 255, 255, 0.85); /* Light theme adaptation */
+  background: rgba(255,255,255,0.03); /* Dark theme */
   border: 1px solid var(--border-default);
   border-radius: 20px;
   padding: 36px 28px;
@@ -61,7 +61,7 @@ const emit = defineEmits<{
 }
 
 .glass-card:hover {
-  background: rgba(255, 255, 255, 0.95);
+  background: rgba(255,255,255,0.06);
   border-color: rgba(139, 92, 246, 0.4);
   transform: translateY(-6px);
   box-shadow: 0 20px 60px rgba(139, 92, 246, 0.15);

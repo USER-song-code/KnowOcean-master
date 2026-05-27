@@ -102,7 +102,7 @@ async function handleLogin() {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(180deg, #f0f6fc 0%, #f8fafc 60%, #ffffff 100%);
+  background: linear-gradient(180deg, #0a0a14 0%, #0d0d1a 60%, #111122 100%);
   padding: 40px 24px;
 }
 

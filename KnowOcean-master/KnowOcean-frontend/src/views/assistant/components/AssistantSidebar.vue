@@ -204,7 +204,7 @@ function formatRelative(iso: string | null): string {
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
-  background: #fbfaf6;
+  background: #0c0c11;
   border-right: 1px solid var(--border-default);
   padding: 22px 18px 16px;
   height: 100%;
@@ -342,7 +342,7 @@ function formatRelative(iso: string | null): string {
   font-size: 0.74rem;
   color: var(--text-secondary);
   line-height: 1.55;
-  background: #fff;
+  background: var(--surface-white);
   border: 1px solid var(--border-default);
   border-radius: 10px;
 }
@@ -452,7 +452,7 @@ function formatRelative(iso: string | null): string {
 }
 
 .asst-sidebar__item.is-active {
-  background: #fff;
+  background: var(--surface-white);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
@@ -506,7 +506,7 @@ function formatRelative(iso: string | null): string {
   font-size: 0.84rem;
   font-weight: 600;
   color: var(--text-primary);
-  background: #fff;
+  background: var(--surface-white);
   border: 1.5px solid var(--brand-primary);
   border-radius: 5px;
   outline: none;
@@ -556,7 +556,7 @@ function formatRelative(iso: string | null): string {
   text-align: center;
   border: 1px dashed var(--border-default);
   border-radius: 10px;
-  background: rgba(255, 255, 255, 0.5);
+  background: rgba(255,255,255,0.04);
 }
 
 .asst-sidebar__empty p {

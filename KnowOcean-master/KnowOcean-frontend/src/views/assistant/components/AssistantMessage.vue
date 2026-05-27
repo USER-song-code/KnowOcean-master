@@ -182,9 +182,9 @@ function pad(n: number): string {
 }
 
 .amsg--assistant {
-  background: linear-gradient(180deg, rgba(250, 250, 247, 0.6), rgba(250, 250, 247, 0.3));
-  border-top: 1px solid rgba(15, 23, 42, 0.05);
-  border-bottom: 1px solid rgba(15, 23, 42, 0.05);
+  background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+  border-top: 1px solid var(--border-on-dark);
+  border-bottom: 1px solid var(--border-on-dark);
 }
 
 .amsg--tool {
@@ -332,7 +332,7 @@ function pad(n: number): string {
   align-items: center;
   gap: 6px;
   padding: 8px 14px;
-  background: #fff;
+  background: var(--surface-white);
   border: 1px solid var(--border-default);
   border-radius: 100px;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
@@ -397,7 +397,7 @@ function pad(n: number): string {
   font-size: 0.78rem;
   font-weight: 600;
   color: #dc2626;
-  background: #fff;
+  background: var(--surface-white);
   border: 1px solid rgba(239, 68, 68, 0.3);
   border-radius: 100px;
   cursor: pointer;
@@ -477,7 +477,7 @@ function pad(n: number): string {
   font-family: 'JetBrains Mono', monospace;
   font-size: 0.84em;
   padding: 1px 6px;
-  background: rgba(15, 23, 42, 0.06);
+  background: rgba(255,255,255,0.06);
   border-radius: 4px;
   color: var(--brand-primary-dark);
 }

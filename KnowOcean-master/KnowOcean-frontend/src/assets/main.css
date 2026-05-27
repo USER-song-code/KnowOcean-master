@@ -1,54 +1,74 @@
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Open+Sans:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import 'tailwindcss';
 
 /* ═══════════════════════════════════════
-   Design Tokens — Fresh Professional Light
+   Design Tokens — Dark Ocean Theme
    ═══════════════════════════════════════ */
 :root {
   /* Element Plus overrides */
-  --el-color-primary: #1565C0;
-  --el-color-primary-light-3: #38BDF8;
-  --el-color-primary-light-5: #7DD3FC;
-  --el-color-primary-light-7: #A5E4FC;
-  --el-color-primary-light-8: #C9EDFE;
-  --el-color-primary-light-9: #E0F2FE;
-  --el-color-primary-dark-2: #0A2F5C;
-  --el-color-success: #10b981;
-  --el-color-warning: #f59e0b;
-  --el-color-danger: #ef4444;
+  --el-color-primary: #60a5fa;
+  --el-color-primary-light-3: #3b82f6;
+  --el-color-primary-light-5: #2563eb;
+  --el-color-primary-light-7: #1d4ed8;
+  --el-color-primary-light-8: #1e40af;
+  --el-color-primary-light-9: #1e3a5f;
+  --el-color-primary-dark-2: #93c5fd;
+  --el-color-success: #34d399;
+  --el-color-warning: #fbbf24;
+  --el-color-danger: #f87171;
   --el-border-radius-base: 8px;
 
-  /* Brand */
-  --brand-primary: #1565C0;
-  --brand-primary-light: #38BDF8;
-  --brand-primary-dark: #0A2F5C;
-  --brand-accent: #06B6D4;
-  --brand-accent-dark: #0891B2;
+  /* Element Plus dark mode */
+  --el-bg-color: #0a0a0f;
+  --el-bg-color-overlay: #141419;
+  --el-bg-color-page: #000;
+  --el-text-color-primary: rgba(255,255,255,0.9);
+  --el-text-color-regular: rgba(255,255,255,0.75);
+  --el-text-color-secondary: rgba(255,255,255,0.5);
+  --el-text-color-placeholder: rgba(255,255,255,0.3);
+  --el-border-color: rgba(255,255,255,0.08);
+  --el-border-color-light: rgba(255,255,255,0.06);
+  --el-border-color-lighter: rgba(255,255,255,0.04);
+  --el-fill-color: rgba(255,255,255,0.04);
+  --el-fill-color-light: rgba(255,255,255,0.06);
+  --el-fill-color-lighter: rgba(255,255,255,0.03);
+  --el-fill-color-blank: #0a0a0f;
+  --el-mask-color: rgba(0,0,0,0.7);
+  --el-bg-color-page: #000;
 
-  /* Surfaces — light system */
-  --surface-white: #ffffff;
-  --surface-subtle: #f8fafc;
-  --surface-muted: #f1f5f9;
-  --surface-accent: #edf5fd;
-  --surface-footer: #1e293b;
+  /* Brand — Ocean blue */
+  --brand-primary: #60a5fa;
+  --brand-primary-light: #93c5fd;
+  --brand-primary-dark: #1e3a5f;
+  --brand-accent: #38bdf8;
+  --brand-accent-dark: #0284c7;
 
-  /* Text */
-  --text-primary: #1e293b;
-  --text-secondary: #475569;
-  --text-muted: #94a3b8;
-  --text-on-dark: #e2e8f0;
-  --text-on-dark-muted: #94a3b8;
+  /* Surfaces — dark */
+  --surface-white: #141419;
+  --surface-subtle: #0f0f14;
+  --surface-muted: rgba(255,255,255,0.04);
+  --surface-accent: rgba(59,130,246,0.08);
+  --surface-footer: #020617;
 
-  /* Borders */
-  --border-default: #e2e8f0;
-  --border-subtle: #f1f5f9;
-  --border-on-dark: rgba(255, 255, 255, 0.08);
+  /* Text — light on dark */
+  --text-primary: rgba(255,255,255,0.9);
+  --text-secondary: rgba(255,255,255,0.6);
+  --text-muted: rgba(255,255,255,0.35);
+  --text-on-dark: rgba(255,255,255,0.9);
+  --text-on-dark-muted: rgba(255,255,255,0.45);
 
-  /* Shadows — soft UI style */
-  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.03);
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.03);
-  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.06);
-  --shadow-lg: 0 10px 28px rgba(0, 0, 0, 0.08);
-  --shadow-xl: 0 20px 48px rgba(0, 0, 0, 0.1);
+  /* Borders — subtle */
+  --border-default: rgba(255,255,255,0.08);
+  --border-subtle: rgba(255,255,255,0.05);
+  --border-on-dark: rgba(255,255,255,0.1);
+
+  /* Shadows — dark mode (deeper) */
+  --shadow-xs: 0 1px 2px rgba(0,0,0,0.3);
+  --shadow-sm: 0 1px 4px rgba(0,0,0,0.4);
+  --shadow-md: 0 4px 20px rgba(0,0,0,0.5);
+  --shadow-lg: 0 10px 36px rgba(0,0,0,0.6);
+  --shadow-xl: 0 20px 56px rgba(0,0,0,0.7);
 
   /* Radii */
   --radius-xs: 6px;
@@ -78,11 +98,34 @@ html {
 
 body {
   font-family: 'Open Sans', 'Noto Sans SC', system-ui, -apple-system, sans-serif;
-  background: var(--surface-white);
+  background: #000;
   color: var(--text-primary);
   line-height: 1.6;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
+}
+
+/* Element Plus dark dialog overrides */
+.el-dialog {
+  --el-dialog-bg-color: #141419;
+  --el-dialog-border-radius: 20px;
+}
+
+.el-message-box {
+  --el-messagebox-bg-color: #141419;
+  --el-messagebox-border-radius: 16px;
+}
+
+.el-message-box__title {
+  color: rgba(255,255,255,0.9) !important;
+}
+
+.el-message-box__message {
+  color: rgba(255,255,255,0.6) !important;
+}
+
+.el-overlay {
+  background-color: rgba(0,0,0,0.7) !important;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -157,4 +200,41 @@ img, svg { display: block; max-width: 100%; }
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+}
+
+/* ═══════════════════════════════════════
+   Liquid Glass
+   ═══════════════════════════════════════ */
+@layer components {
+  .liquid-glass {
+    background: rgba(255, 255, 255, 0.03);
+    background-blend-mode: luminosity;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: none;
+    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.12);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .liquid-glass::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1.4px;
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.5) 0%,
+      rgba(255, 255, 255, 0.18) 20%,
+      rgba(255, 255, 255, 0) 40%,
+      rgba(255, 255, 255, 0) 60%,
+      rgba(255, 255, 255, 0.18) 80%,
+      rgba(255, 255, 255, 0.5) 100%
+    );
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
 }

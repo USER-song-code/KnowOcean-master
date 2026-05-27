@@ -452,8 +452,8 @@ onMounted(async () => {
   display: flex;
   height: 100%;
   min-height: 600px;
-  background: #fff;
-  border: 1px solid var(--border-default);
+  background: var(--surface-white);
+  border: 1px solid var(--border-on-dark);
   border-radius: var(--radius-lg);
   overflow: hidden;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);

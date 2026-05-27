@@ -121,7 +121,7 @@ defineExpose({ focus, setText })
 .qa-composer {
   flex-shrink: 0;
   padding: 18px 24px 22px;
-  background: linear-gradient(to top, #fff 70%, rgba(255, 255, 255, 0));
+  background: linear-gradient(to top, var(--surface-white) 70%, rgba(20, 20, 25, 0));
   position: relative;
 }
 
@@ -164,7 +164,7 @@ defineExpose({ focus, setText })
 
 /* Shell */
 .qa-composer__shell {
-  background: #fff;
+  background: var(--surface-white);
   border: 1.5px solid var(--border-default);
   border-radius: 16px;
   padding: 12px 14px 10px;
@@ -281,7 +281,7 @@ defineExpose({ focus, setText })
 .qa-composer__send:disabled {
   opacity: 0.45;
   cursor: not-allowed;
-  background: linear-gradient(135deg, #94a3b8, #64748b);
+  background: linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.05));
   box-shadow: none;
 }
 
@@ -289,8 +289,8 @@ defineExpose({ focus, setText })
   display: inline-block;
   width: 12px;
   height: 12px;
-  border: 2px solid rgba(255, 255, 255, 0.4);
-  border-top-color: #fff;
+  border: 2px solid rgba(255,255,255,0.15);
+  border-top-color: var(--brand-primary);
   border-radius: 50%;
   animation: spin 0.7s linear infinite;
 }

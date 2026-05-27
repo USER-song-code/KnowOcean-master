@@ -120,7 +120,7 @@ watch(
   display: flex;
   flex-direction: column;
   min-height: 0;
-  background: #fff;
+  background: var(--surface-white);
   position: relative;
 }
 
@@ -136,7 +136,7 @@ watch(
   align-items: center;
   padding: 16px 32px 14px;
   border-bottom: 1px solid var(--border-subtle);
-  background: rgba(255, 255, 255, 0.95);
+  background: rgba(255,255,255,0.05);
   backdrop-filter: blur(8px);
   position: sticky;
   top: 0;

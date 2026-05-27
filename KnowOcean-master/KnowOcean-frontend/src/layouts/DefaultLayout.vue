@@ -266,10 +266,10 @@ function navigateTo(path: string) {
 .sidebar {
   width: 244px;
   flex-shrink: 0;
-  background: #fbfaf6;
+  background: #0c0c11;
   display: flex;
   flex-direction: column;
-  border-right: 1px solid var(--border-default);
+  border-right: 1px solid var(--border-on-dark);
   transition: width 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   overflow: hidden;
   position: fixed;
@@ -286,7 +286,7 @@ function navigateTo(path: string) {
   right: 0;
   bottom: 0;
   width: 1px;
-  background: linear-gradient(to bottom, transparent, rgba(74, 144, 217, 0.15), transparent);
+  background: linear-gradient(to bottom, transparent, rgba(96, 165, 250, 0.15), transparent);
   pointer-events: none;
 }
 
@@ -301,7 +301,7 @@ function navigateTo(path: string) {
   gap: 11px;
   padding: 20px 16px;
   cursor: pointer;
-  border-bottom: 1px dashed var(--border-default);
+  border-bottom: 1px dashed var(--border-on-dark);
   flex-shrink: 0;
   position: relative;
 }
@@ -313,8 +313,8 @@ function navigateTo(path: string) {
   width: 36px;
   height: 36px;
   border-radius: 10px;
-  background: #fff;
-  box-shadow: 0 2px 8px rgba(74, 144, 217, 0.1);
+  background: rgba(255,255,255,0.06);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
   flex-shrink: 0;
   transition: transform 0.25s ease;
 }
@@ -378,7 +378,7 @@ function navigateTo(path: string) {
 
 .sidebar-bottom {
   padding: 10px 10px 16px;
-  border-top: 1px dashed var(--border-default);
+  border-top: 1px dashed var(--border-on-dark);
 }
 
 .brand-text {
@@ -421,15 +421,15 @@ function navigateTo(path: string) {
 }
 
 .nav-item:hover {
-  background: rgba(74, 144, 217, 0.06);
+  background: rgba(96, 165, 250, 0.08);
   color: var(--text-primary);
 }
 
 .nav-item.active {
-  background: #fff;
+  background: rgba(255,255,255,0.06);
   color: var(--brand-primary);
   font-weight: 600;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
 .nav-item__bar {
@@ -498,9 +498,10 @@ function navigateTo(path: string) {
 /* ════════════ Topbar ════════════ */
 .topbar {
   height: 64px;
-  background: rgba(255, 255, 255, 0.92);
+  background: rgba(10, 10, 15, 0.85);
   backdrop-filter: saturate(180%) blur(12px);
-  border-bottom: 1px solid var(--border-default);
+  -webkit-backdrop-filter: saturate(180%) blur(12px);
+  border-bottom: 1px solid var(--border-on-dark);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -579,8 +580,8 @@ function navigateTo(path: string) {
   align-items: center;
   gap: 10px;
   padding: 5px 10px 5px 5px;
-  background: #fff;
-  border: 1px solid var(--border-default);
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--border-on-dark);
   border-radius: 100px;
   cursor: pointer;
   font-family: inherit;
@@ -589,12 +590,12 @@ function navigateTo(path: string) {
 
 .user-chip:hover {
   border-color: var(--brand-primary);
-  box-shadow: 0 2px 8px rgba(74, 144, 217, 0.12);
+  box-shadow: 0 2px 12px rgba(96, 165, 250, 0.15);
 }
 
 .user-chip.is-open {
   border-color: var(--brand-primary);
-  box-shadow: 0 0 0 3px rgba(74, 144, 217, 0.12);
+  box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.12);
 }
 
 .user-chip__avatar {
@@ -667,10 +668,10 @@ function navigateTo(path: string) {
   top: calc(100% + 10px);
   right: 0;
   width: 240px;
-  background: #fff;
-  border: 1px solid var(--border-default);
+  background: #141419;
+  border: 1px solid var(--border-on-dark);
   border-radius: 14px;
-  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.1);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
   z-index: 100;
   animation: dropdown-in 0.18s cubic-bezier(0.16, 1, 0.3, 1);
   overflow: hidden;
@@ -692,8 +693,8 @@ function navigateTo(path: string) {
   align-items: center;
   gap: 11px;
   padding: 14px 16px 12px;
-  background: linear-gradient(135deg, rgba(74, 144, 217, 0.04), rgba(92, 201, 193, 0.04));
-  border-bottom: 1px dashed var(--border-default);
+  background: linear-gradient(135deg, rgba(96, 165, 250, 0.06), rgba(56, 189, 248, 0.04));
+  border-bottom: 1px dashed var(--border-on-dark);
 }
 
 .dropdown-header__avatar {

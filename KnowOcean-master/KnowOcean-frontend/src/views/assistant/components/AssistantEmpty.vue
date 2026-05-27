@@ -147,7 +147,7 @@ const kbStarters = [
   padding: 48px 32px;
   position: relative;
   overflow: hidden;
-  background: #fff;
+  background: var(--surface-white);
 }
 
 /* Mesh */
@@ -341,7 +341,7 @@ const kbStarters = [
   align-items: flex-start;
   gap: 12px;
   padding: 14px 16px;
-  background: #fff;
+  background: var(--surface-white);
   border: 1px solid var(--border-default);
   border-radius: 14px;
   text-align: left;

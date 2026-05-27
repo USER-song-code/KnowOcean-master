@@ -72,7 +72,7 @@ function tagClass(fileName: string): string {
 .citebar {
   margin-top: 14px;
   padding-top: 14px;
-  border-top: 1px dashed rgba(15, 23, 42, 0.1);
+  border-top: 1px dashed var(--border-on-dark);
 }
 
 .citebar__head {
@@ -131,7 +131,7 @@ function tagClass(fileName: string): string {
   gap: 8px;
   max-width: 100%;
   padding: 5px 10px 5px 8px;
-  background: #fff;
+  background: var(--surface-white);
   border: 1px solid var(--border-default);
   border-radius: 100px;
   font-family: inherit;
@@ -191,7 +191,7 @@ function tagClass(fileName: string): string {
 }
 
 .citebar__chip-tag--txt {
-  color: #64748b;
+  color: var(--text-muted);
   background: rgba(148, 163, 184, 0.15);
 }
 

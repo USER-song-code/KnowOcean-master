@@ -38,7 +38,6 @@ watch(
   (val) => {
     if (val) {
       resetState()
-      nextTick(() => fileInputRef.value?.click())
     }
   },
 )
@@ -406,7 +405,7 @@ function formatSize(bytes: number): string {
   font-size: 0.78rem;
   font-weight: 600;
   color: var(--brand-primary);
-  background: #fff;
+  background: var(--surface-white);
   border: 1px solid rgba(74, 144, 217, 0.3);
   border-radius: 100px;
   cursor: pointer;
@@ -488,7 +487,7 @@ function formatSize(bytes: number): string {
   font-size: 0.78rem;
   font-weight: 600;
   color: #dc2626;
-  background: #fff;
+  background: var(--surface-white);
   border: 1px solid rgba(239, 68, 68, 0.3);
   border-radius: 100px;
   cursor: pointer;
