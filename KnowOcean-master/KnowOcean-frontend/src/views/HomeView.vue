@@ -17,6 +17,13 @@ function navigateToApp() {
   }
 }
 
+function scrollToSection(id: string) {
+  const el = document.getElementById(id)
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }
+}
+
 // scroll reveal
 onMounted(() => {
   nextTick(() => {
@@ -109,9 +116,9 @@ const cases = [
           <span>知识海洋平台</span>
         </a>
         <nav class="nav-links">
-          <a href="#features">核心功能</a>
-          <a href="#workflow">工作流程</a>
-          <a href="#cases">应用场景</a>
+          <a href="javascript:void(0)" @click.prevent="scrollToSection('features')">核心功能</a>
+          <a href="javascript:void(0)" @click.prevent="scrollToSection('workflow')">工作流程</a>
+          <a href="javascript:void(0)" @click.prevent="scrollToSection('cases')">应用场景</a>
         </nav>
         <div class="nav-actions">
           <button class="btn-ghost" @click="showLoginModal = true">登录</button>
@@ -957,7 +964,30 @@ const caseIcons: Record<string, string> = {
   text-align: center;
 }
 
-.footer-bottom p {
+.footer-webmaster {
+  margin: 0 0 10px 0;
+}
+
+.footer-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text-on-dark-muted);
+  font-size: 13px;
+  text-decoration: none;
+  transition: color 0.25s ease;
+}
+
+.footer-link:hover {
+  color: #60A5FA;
+}
+
+.footer-icon {
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.footer-copyright {
   font-size: 13px;
   color: var(--text-on-dark-muted);
   margin: 0;
