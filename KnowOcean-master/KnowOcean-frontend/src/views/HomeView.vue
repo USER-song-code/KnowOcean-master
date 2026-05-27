@@ -24,23 +24,43 @@ function scrollToSection(id: string) {
   }
 }
 
-// scroll reveal
+// ── Video background loop ──
+const videoRef = ref<HTMLVideoElement | null>(null)
+const videoOpacity = ref(1)
+let rafId = 0
+
 onMounted(() => {
   nextTick(() => {
-    const reveals = document.querySelectorAll('.scroll-reveal')
-    const obs = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('is-visible')
-            obs.unobserve(entry.target)
-          }
-        })
-      },
-      { threshold: 0.15 }
-    )
-    reveals.forEach((el) => obs.observe(el))
+    const video = videoRef.value
+    if (!video) return
+    const loop = () => {
+      if (video.readyState >= 2) {
+        const remaining = video.duration - video.currentTime
+        if (remaining > 0 && remaining < 0.3) {
+          videoOpacity.value = Math.max(0, remaining / 0.3)
+        } else {
+          videoOpacity.value = 1
+        }
+      }
+      rafId = requestAnimationFrame(loop)
+    }
+    rafId = requestAnimationFrame(loop)
   })
+
+  // scroll reveal
+  const reveals = document.querySelectorAll('.scroll-reveal')
+  const obs = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible')
+          obs.unobserve(entry.target)
+        }
+      })
+    },
+    { threshold: 0.15 }
+  )
+  reveals.forEach((el) => obs.observe(el))
 })
 
 const features = [
@@ -96,8 +116,24 @@ const cases = [
     <!-- ════════ Login Modal ════════ -->
     <LoginModal v-model:visible="showLoginModal" />
 
+    <!-- ════════ Video Background ════════ -->
+    <div class="landing-video-wrap">
+      <video
+        ref="videoRef"
+        class="landing-video"
+        autoplay
+        muted
+        loop
+        playsinline
+        :style="{ opacity: videoOpacity, transition: 'opacity .25s linear' }"
+      >
+        <source src="/videos/hero-bg.mp4" type="video/mp4">
+      </video>
+      <div class="landing-video-overlay"></div>
+    </div>
+
     <!-- ════════ Navbar ════════ -->
-    <header class="navbar">
+    <header class="navbar liquid-glass">
       <div class="nav-inner container">
         <a href="/" class="nav-brand">
           <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
@@ -129,11 +165,6 @@ const cases = [
 
     <!-- ════════ Hero ════════ -->
     <section class="hero">
-      <div class="hero-bg">
-        <div class="hero-grid"></div>
-        <div class="hero-glow hero-glow-1"></div>
-        <div class="hero-glow hero-glow-2"></div>
-      </div>
       <div class="hero-content container">
         <div class="hero-badge">
           <span class="badge-pulse"></span>
@@ -149,12 +180,10 @@ const cases = [
         </p>
         <div class="hero-actions">
           <button class="btn-primary" @click="showLoginModal = true">
-            开始使用
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M5 12H19M19 12L13 6M19 12L13 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            开始使用 →
           </button>
           <button class="btn-outline" @click="navigateToApp()">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M8 6L14 12L8 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            进入工作台
+            → 进入工作台
           </button>
         </div>
 
@@ -279,9 +308,9 @@ const cases = [
           </div>
           <div class="footer-col">
             <h4>产品</h4>
-            <a href="#features">核心功能</a>
-            <a href="#workflow">工作流程</a>
-            <a href="#cases">应用场景</a>
+            <a href="javascript:void(0)" @click.prevent="scrollToSection('features')">核心功能</a>
+            <a href="javascript:void(0)" @click.prevent="scrollToSection('workflow')">工作流程</a>
+            <a href="javascript:void(0)" @click.prevent="scrollToSection('cases')">应用场景</a>
           </div>
           <div class="footer-col">
             <h4>接口</h4>
@@ -297,7 +326,13 @@ const cases = [
           </div>
         </div>
         <div class="footer-bottom">
-          <p>&copy; 2026 知识海洋平台. All rights reserved.</p>
+          <p class="footer-webmaster">
+            <a class="footer-link" title="master" target="_blank" href="https://space.bilibili.com/12890453" rel="noreferrer">
+              <svg class="footer-icon" viewBox="64 64 896 896" focusable="false" data-icon="user" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M858.5 763.6a374 374 0 00-80.6-119.5 375.63 375.63 0 00-119.5-80.6c-.4-.2-.8-.3-1.2-.5C719.5 518 760 444.7 760 362c0-137-111-248-248-248S264 225 264 362c0 82.7 40.5 156 102.8 201.1-.4.2-.8.3-1.2.5-44.8 18.9-85 46-119.5 80.6a375.63 375.63 0 00-80.6 119.5A371.7 371.7 0 00136 901.8a8 8 0 008 8.2h60c4.4 0 7.9-3.5 8-7.8 2-77.2 33-149.5 87.8-204.3 56.7-56.7 132-87.9 212.2-87.9s155.5 31.2 212.2 87.9C779 752.7 810 825 812 902.2c.1 4.4 3.6 7.8 8 7.8h60a8 8 0 008-8.2c-1-47.8-10.9-94.3-29.5-138.2zM512 534c-45.9 0-89.1-17.9-121.6-50.4S340 407.9 340 362c0-45.9 17.9-89.1 50.4-121.6S466.1 190 512 190s89.1 17.9 121.6 50.4S684 316.1 684 362c0 45.9-17.9 89.1-50.4 121.6S557.9 534 512 534z"></path></svg>
+              站长：程序员阿哲
+            </a>
+          </p>
+          <p class="footer-copyright">&copy; 2026 知识海洋平台. All rights reserved.</p>
         </div>
       </div>
     </footer>
@@ -315,6 +350,39 @@ const caseIcons: Record<string, string> = {
 </script>
 
 <style scoped>
+/* ════════════ Video Background ════════════ */
+.landing-video-wrap {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+}
+
+.landing-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.landing-video-overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 30% 20%, rgba(6, 182, 212, 0.08) 0%, transparent 55%),
+    radial-gradient(ellipse at 70% 80%, rgba(59, 130, 246, 0.06) 0%, transparent 50%),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.45));
+  pointer-events: none;
+}
+
+/* ════════════ Liquid Glass ════════════ */
+.liquid-glass {
+  background: rgba(255, 255, 255, 0.07);
+  backdrop-filter: blur(18px) saturate(1.4);
+  -webkit-backdrop-filter: blur(18px) saturate(1.4);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
 /* ════════════ Navbar ════════════ */
 .navbar {
   position: fixed;
@@ -322,10 +390,6 @@ const caseIcons: Record<string, string> = {
   left: 0;
   right: 0;
   z-index: 100;
-  background: rgba(255, 255, 255, 0.92);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border-bottom: 1px solid var(--border-default);
 }
 
 .nav-inner {
@@ -342,7 +406,7 @@ const caseIcons: Record<string, string> = {
   font-family: 'Poppins', 'Noto Sans SC', sans-serif;
   font-weight: 700;
   font-size: 17px;
-  color: var(--text-primary);
+  color: #fff;
   letter-spacing: -0.01em;
 }
 
@@ -354,12 +418,12 @@ const caseIcons: Record<string, string> = {
 .nav-links a {
   font-size: 13.5px;
   font-weight: 500;
-  color: var(--text-secondary);
+  color: rgba(255, 255, 255, 0.75);
   transition: color 0.2s ease;
 }
 
 .nav-links a:hover {
-  color: var(--brand-primary);
+  color: #fff;
 }
 
 .nav-actions {
@@ -373,14 +437,16 @@ const caseIcons: Record<string, string> = {
   border-radius: var(--radius-xs);
   font-size: 13.5px;
   font-weight: 500;
-  color: var(--text-secondary);
+  color: rgba(255, 255, 255, 0.85);
   background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.15);
   transition: all 0.2s ease;
 }
 
 .btn-ghost:hover {
-  color: var(--brand-primary);
-  background: rgba(74, 144, 217, 0.06);
+  color: #fff;
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.25);
 }
 
 .btn-nav-cta {
@@ -389,12 +455,13 @@ const caseIcons: Record<string, string> = {
   font-size: 13.5px;
   font-weight: 600;
   color: #fff;
-  background: var(--brand-primary);
+  background: linear-gradient(135deg, #2563eb, #06b6d4);
   transition: all 0.2s ease;
 }
 
 .btn-nav-cta:hover {
-  background: var(--brand-primary-dark);
+  background: linear-gradient(135deg, #1d4ed8, #0891b2);
+  box-shadow: 0 4px 16px rgba(37, 99, 235, 0.35);
 }
 
 /* ════════════ Hero ════════════ */
@@ -403,47 +470,8 @@ const caseIcons: Record<string, string> = {
   min-height: 100vh;
   display: flex;
   align-items: center;
-  background: linear-gradient(180deg, #f0f6fc 0%, #f8fafc 60%, #ffffff 100%);
   overflow: hidden;
   padding: 100px 0 80px;
-}
-
-.hero-bg {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-}
-
-.hero-grid {
-  position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(rgba(74, 144, 217, 0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(74, 144, 217, 0.04) 1px, transparent 1px);
-  background-size: 56px 56px;
-  mask-image: radial-gradient(ellipse 70% 70% at 50% 40%, black 30%, transparent 70%);
-}
-
-.hero-glow {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(120px);
-}
-
-.hero-glow-1 {
-  width: 500px;
-  height: 500px;
-  background: rgba(74, 144, 217, 0.12);
-  top: -100px;
-  right: -150px;
-}
-
-.hero-glow-2 {
-  width: 350px;
-  height: 350px;
-  background: rgba(92, 201, 193, 0.1);
-  bottom: -80px;
-  left: -100px;
 }
 
 .hero-content {
@@ -459,11 +487,12 @@ const caseIcons: Record<string, string> = {
   gap: 8px;
   padding: 5px 16px;
   border-radius: 100px;
-  background: rgba(74, 144, 217, 0.08);
-  border: 1px solid rgba(74, 144, 217, 0.15);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(8px);
   font-size: 13px;
   font-weight: 500;
-  color: var(--brand-primary-dark);
+  color: rgba(255, 255, 255, 0.9);
   margin-bottom: 32px;
   animation: fade-in-up 0.5s ease;
 }
@@ -472,7 +501,7 @@ const caseIcons: Record<string, string> = {
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: var(--brand-accent);
+  background: #06b6d4;
   animation: pulse-ring 2.5s ease-in-out infinite;
 }
 
@@ -482,15 +511,22 @@ const caseIcons: Record<string, string> = {
   font-weight: 800;
   line-height: 1.12;
   letter-spacing: -0.03em;
-  color: var(--text-primary);
+  color: #fff;
   margin-bottom: 20px;
   animation: fade-in-up 0.5s ease 0.1s both;
+}
+
+.text-gradient {
+  background: linear-gradient(135deg, #60a5fa, #06b6d4, #34d399);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .hero-desc {
   font-size: 16px;
   line-height: 1.7;
-  color: var(--text-secondary);
+  color: rgba(255, 255, 255, 0.7);
   max-width: 560px;
   margin: 0 auto 40px;
   animation: fade-in-up 0.5s ease 0.2s both;
@@ -509,19 +545,18 @@ const caseIcons: Record<string, string> = {
   gap: 8px;
   padding: 14px 32px;
   border-radius: var(--radius-sm);
-  background: var(--brand-primary);
+  background: linear-gradient(135deg, #2563eb, #06b6d4);
   color: #fff;
   font-size: 15px;
   font-weight: 600;
-  transition: all 0.2s ease;
-  box-shadow: 0 4px 16px rgba(74, 144, 217, 0.3);
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 20px rgba(37, 99, 235, 0.35);
   letter-spacing: 0.01em;
 }
 
 .btn-primary:hover {
-  background: var(--brand-primary-light);
-  box-shadow: 0 6px 24px rgba(74, 144, 217, 0.4);
-  transform: translateY(-1px);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(37, 99, 235, 0.45);
 }
 
 .btn-outline {
@@ -530,19 +565,19 @@ const caseIcons: Record<string, string> = {
   gap: 8px;
   padding: 14px 32px;
   border-radius: var(--radius-sm);
-  border: 1.5px solid var(--border-default);
-  color: var(--text-secondary);
+  border: 1.5px solid rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.85);
   font-size: 15px;
   font-weight: 600;
   background: transparent;
-  transition: all 0.2s ease;
+  transition: all 0.25s ease;
   letter-spacing: 0.01em;
 }
 
 .btn-outline:hover {
-  border-color: var(--brand-primary);
-  color: var(--brand-primary);
-  background: rgba(74, 144, 217, 0.04);
+  border-color: rgba(255, 255, 255, 0.4);
+  color: #fff;
+  background: rgba(255, 255, 255, 0.08);
 }
 
 /* Hero metrics */
@@ -564,19 +599,19 @@ const caseIcons: Record<string, string> = {
   font-family: 'Poppins', sans-serif;
   font-size: 32px;
   font-weight: 800;
-  color: var(--text-primary);
+  color: #fff;
   line-height: 1;
   margin-bottom: 6px;
 }
 
 .metric-unit {
   font-size: 18px;
-  color: var(--brand-accent-dark);
+  color: #06b6d4;
 }
 
 .metric-label {
   font-size: 12.5px;
-  color: var(--text-muted);
+  color: rgba(255, 255, 255, 0.5);
   font-weight: 500;
   letter-spacing: 0.02em;
 }
@@ -584,7 +619,7 @@ const caseIcons: Record<string, string> = {
 .metric-divider {
   width: 1px;
   height: 36px;
-  background: var(--border-default);
+  background: rgba(255, 255, 255, 0.15);
 }
 
 /* ════════════ Section Headers ════════════ */
@@ -597,8 +632,8 @@ const caseIcons: Record<string, string> = {
   display: inline-block;
   padding: 4px 14px;
   border-radius: 100px;
-  background: rgba(74, 144, 217, 0.08);
-  color: var(--brand-primary-dark);
+  background: rgba(37, 99, 235, 0.1);
+  color: #60a5fa;
   font-size: 12.5px;
   font-weight: 600;
   letter-spacing: 0.03em;
@@ -609,14 +644,14 @@ const caseIcons: Record<string, string> = {
   font-family: 'Poppins', 'Noto Sans SC', sans-serif;
   font-size: clamp(26px, 3.5vw, 38px);
   font-weight: 800;
-  color: var(--text-primary);
+  color: #fff;
   letter-spacing: -0.02em;
   margin-bottom: 12px;
 }
 
 .section-desc {
   font-size: 15px;
-  color: var(--text-secondary);
+  color: rgba(255, 255, 255, 0.55);
   max-width: 440px;
   margin: 0 auto;
 }
@@ -624,7 +659,7 @@ const caseIcons: Record<string, string> = {
 /* ════════════ Features ════════════ */
 .features {
   padding: 120px 0;
-  background: var(--surface-white);
+  background: transparent;
 }
 
 .features-grid {
@@ -636,15 +671,17 @@ const caseIcons: Record<string, string> = {
 .feature-card {
   padding: 36px 30px;
   border-radius: var(--radius-md);
-  border: 1px solid var(--border-subtle);
-  background: var(--surface-white);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(10px);
   transition: all var(--ease-in-out);
   cursor: pointer;
 }
 
 .feature-card:hover {
-  border-color: rgba(74, 144, 217, 0.15);
-  box-shadow: var(--shadow-lg);
+  border-color: rgba(96, 165, 250, 0.2);
+  background: rgba(255, 255, 255, 0.07);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
   transform: translateY(-2px);
 }
 
@@ -652,30 +689,30 @@ const caseIcons: Record<string, string> = {
   width: 42px;
   height: 42px;
   border-radius: 10px;
-  background: var(--surface-accent);
+  background: rgba(96, 165, 250, 0.12);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--brand-primary);
+  color: #60a5fa;
   margin-bottom: 20px;
   transition: all var(--ease-in-out);
 }
 
 .feature-card:hover .feature-icon {
-  background: var(--brand-primary);
+  background: linear-gradient(135deg, #2563eb, #06b6d4);
   color: #fff;
 }
 
 .feature-card h3 {
   font-size: 16px;
   font-weight: 700;
-  color: var(--text-primary);
+  color: #fff;
   margin-bottom: 8px;
 }
 
 .feature-card p {
   font-size: 13.5px;
-  color: var(--text-secondary);
+  color: rgba(255, 255, 255, 0.55);
   line-height: 1.65;
   margin: 0;
 }
@@ -683,7 +720,7 @@ const caseIcons: Record<string, string> = {
 /* ════════════ Workflow ════════════ */
 .workflow {
   padding: 120px 0;
-  background: var(--surface-subtle);
+  background: rgba(0, 0, 0, 0.2);
 }
 
 .steps-list {
@@ -702,20 +739,20 @@ const caseIcons: Record<string, string> = {
   width: 52px;
   height: 52px;
   border-radius: 14px;
-  background: linear-gradient(135deg, rgba(74, 144, 217, 0.1), rgba(92, 201, 193, 0.08));
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.2), rgba(6, 182, 212, 0.15));
   display: flex;
   align-items: center;
   justify-content: center;
   font-family: 'Poppins', sans-serif;
   font-size: 20px;
   font-weight: 800;
-  color: var(--brand-primary);
+  color: #60a5fa;
   flex-shrink: 0;
 }
 
 .step-divider-v {
   width: 2px;
-  background: linear-gradient(to bottom, var(--brand-primary), var(--brand-accent));
+  background: linear-gradient(to bottom, #2563eb, #06b6d4);
   border-radius: 1px;
   flex-shrink: 0;
   opacity: 0.2;
@@ -734,13 +771,13 @@ const caseIcons: Record<string, string> = {
 .step-card h3 {
   font-size: 18px;
   font-weight: 700;
-  color: var(--text-primary);
+  color: #fff;
   margin-bottom: 6px;
 }
 
 .step-card p {
   font-size: 14px;
-  color: var(--text-secondary);
+  color: rgba(255, 255, 255, 0.55);
   line-height: 1.6;
   margin: 0;
 }
@@ -748,7 +785,7 @@ const caseIcons: Record<string, string> = {
 /* ════════════ Cases ════════════ */
 .cases {
   padding: 120px 0;
-  background: var(--surface-white);
+  background: transparent;
 }
 
 .cases-grid {
@@ -760,16 +797,18 @@ const caseIcons: Record<string, string> = {
 .case-card {
   padding: 32px 20px;
   border-radius: var(--radius-md);
-  border: 1px solid var(--border-subtle);
-  background: var(--surface-white);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(10px);
   text-align: center;
   transition: all var(--ease-in-out);
   cursor: pointer;
 }
 
 .case-card:hover {
-  border-color: rgba(74, 144, 217, 0.15);
-  box-shadow: var(--shadow-md);
+  border-color: rgba(96, 165, 250, 0.2);
+  background: rgba(255, 255, 255, 0.07);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
   transform: translateY(-2px);
 }
 
@@ -777,30 +816,30 @@ const caseIcons: Record<string, string> = {
   width: 52px;
   height: 52px;
   border-radius: 12px;
-  background: var(--surface-accent);
+  background: rgba(96, 165, 250, 0.12);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--brand-primary);
+  color: #60a5fa;
   margin: 0 auto 14px;
   transition: all var(--ease-in-out);
 }
 
 .case-card:hover .case-icon {
-  background: var(--brand-primary);
+  background: linear-gradient(135deg, #2563eb, #06b6d4);
   color: #fff;
 }
 
 .case-card h3 {
   font-size: 16px;
   font-weight: 700;
-  color: var(--text-primary);
+  color: #fff;
   margin-bottom: 6px;
 }
 
 .case-card p {
   font-size: 13px;
-  color: var(--text-secondary);
+  color: rgba(255, 255, 255, 0.55);
   line-height: 1.6;
   margin: 0;
 }
@@ -808,7 +847,7 @@ const caseIcons: Record<string, string> = {
 /* ════════════ CTA ════════════ */
 .cta {
   padding: 100px 0;
-  background: var(--surface-subtle);
+  background: rgba(0, 0, 0, 0.2);
 }
 
 .cta-card {
@@ -816,7 +855,9 @@ const caseIcons: Record<string, string> = {
   text-align: center;
   padding: 80px 48px;
   border-radius: var(--radius-xl);
-  background: linear-gradient(135deg, var(--brand-primary), var(--brand-primary-dark), #2a6cb6);
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.3), rgba(6, 182, 212, 0.2), rgba(42, 108, 182, 0.25));
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(16px);
   overflow: hidden;
 }
 
@@ -830,7 +871,7 @@ const caseIcons: Record<string, string> = {
 .cta-orb-1 {
   width: 280px;
   height: 280px;
-  background: rgba(92, 201, 193, 0.2);
+  background: rgba(92, 201, 193, 0.15);
   top: -100px;
   right: -60px;
 }
@@ -838,7 +879,7 @@ const caseIcons: Record<string, string> = {
 .cta-orb-2 {
   width: 200px;
   height: 200px;
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.05);
   bottom: -80px;
   left: -40px;
 }
@@ -856,7 +897,7 @@ const caseIcons: Record<string, string> = {
 
 .cta-card p {
   font-size: 15px;
-  color: rgba(255, 255, 255, 0.75);
+  color: rgba(255, 255, 255, 0.65);
   position: relative;
   z-index: 1;
   margin-bottom: 36px;
@@ -876,16 +917,16 @@ const caseIcons: Record<string, string> = {
   gap: 8px;
   padding: 14px 32px;
   border-radius: var(--radius-sm);
-  background: #fff;
-  color: var(--brand-primary-dark);
+  background: linear-gradient(135deg, #2563eb, #06b6d4);
+  color: #fff;
   font-size: 15px;
   font-weight: 600;
-  transition: all 0.2s ease;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 20px rgba(37, 99, 235, 0.35);
 }
 .btn-cta-primary:hover {
   transform: translateY(-1px);
-  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.18);
+  box-shadow: 0 8px 30px rgba(37, 99, 235, 0.5);
 }
 
 .btn-cta-outline {
@@ -894,22 +935,24 @@ const caseIcons: Record<string, string> = {
   gap: 8px;
   padding: 14px 32px;
   border-radius: var(--radius-sm);
-  border: 1.5px solid rgba(255, 255, 255, 0.4);
-  color: #fff;
+  border: 1.5px solid rgba(255, 255, 255, 0.25);
+  color: rgba(255, 255, 255, 0.85);
   font-size: 15px;
   font-weight: 600;
   background: transparent;
-  transition: all 0.2s ease;
+  transition: all 0.25s ease;
 }
 .btn-cta-outline:hover {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.4);
+  color: #fff;
 }
 
 /* ════════════ Footer ════════════ */
 .footer {
-  background: var(--surface-footer);
+  background: rgba(0, 0, 0, 0.35);
   padding: 72px 0 32px;
+  backdrop-filter: blur(16px);
 }
 
 .footer-grid {
@@ -926,13 +969,13 @@ const caseIcons: Record<string, string> = {
   font-family: 'Poppins', 'Noto Sans SC', sans-serif;
   font-weight: 700;
   font-size: 16px;
-  color: var(--text-on-dark);
+  color: #fff;
   margin-bottom: 10px;
 }
 
 .footer-brand p {
   font-size: 13.5px;
-  color: var(--text-on-dark-muted);
+  color: rgba(255, 255, 255, 0.45);
   line-height: 1.7;
   margin: 0;
 }
@@ -940,7 +983,7 @@ const caseIcons: Record<string, string> = {
 .footer-col h4 {
   font-size: 12px;
   font-weight: 700;
-  color: var(--text-on-dark-muted);
+  color: rgba(255, 255, 255, 0.4);
   text-transform: uppercase;
   letter-spacing: 0.05em;
   margin-bottom: 16px;
@@ -949,18 +992,18 @@ const caseIcons: Record<string, string> = {
 .footer-col a {
   display: block;
   font-size: 13.5px;
-  color: var(--text-on-dark-muted);
+  color: rgba(255, 255, 255, 0.45);
   padding: 3px 0;
   transition: color 0.2s ease;
 }
 
 .footer-col a:hover {
-  color: var(--text-on-dark);
+  color: #fff;
 }
 
 .footer-bottom {
   padding-top: 28px;
-  border-top: 1px solid var(--border-on-dark);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
   text-align: center;
 }
 
@@ -972,14 +1015,14 @@ const caseIcons: Record<string, string> = {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  color: var(--text-on-dark-muted);
+  color: rgba(255, 255, 255, 0.45);
   font-size: 13px;
   text-decoration: none;
   transition: color 0.25s ease;
 }
 
 .footer-link:hover {
-  color: #60A5FA;
+  color: #60a5fa;
 }
 
 .footer-icon {
@@ -989,8 +1032,29 @@ const caseIcons: Record<string, string> = {
 
 .footer-copyright {
   font-size: 13px;
-  color: var(--text-on-dark-muted);
+  color: rgba(255, 255, 255, 0.35);
   margin: 0;
+}
+
+/* ════════════ Animations ════════════ */
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse-ring {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(1.6); }
+}
+
+.scroll-reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.55s ease, transform 0.55s ease;
+}
+.scroll-reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 /* ════════════ Responsive ════════════ */
