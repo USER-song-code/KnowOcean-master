@@ -498,10 +498,11 @@ function navigateTo(path: string) {
 /* ════════════ Topbar ════════════ */
 .topbar {
   height: 64px;
-  background: rgba(10, 10, 15, 0.85);
-  backdrop-filter: saturate(180%) blur(12px);
-  -webkit-backdrop-filter: saturate(180%) blur(12px);
-  border-bottom: 1px solid var(--border-on-dark);
+  background: rgba(10, 10, 15, 0.45);
+  backdrop-filter: blur(20px) saturate(200%);
+  -webkit-backdrop-filter: blur(20px) saturate(200%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
   display: flex;
   align-items: center;
   justify-content: space-between;

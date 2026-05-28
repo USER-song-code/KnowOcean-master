@@ -1,4 +1,17 @@
 {
+  "compilerOptions": {
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "target": "ESNext",
+    "module": "ESNext",
+    "strict": true,
+    "jsx": "preserve",
+    "sourceMap": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "lib": ["ESNext", "DOM"]
+  },
   "files": [],
   "references": [
     {

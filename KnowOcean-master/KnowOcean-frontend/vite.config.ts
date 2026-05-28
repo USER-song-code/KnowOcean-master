@@ -7,7 +7,12 @@ import tailwindcss from '@tailwindcss/vite'
 const apiProxyTarget = process.env.VITE_DEV_PROXY_TARGET ?? 'http://localhost:10001'
 
 export default defineConfig({
-  plugins: [vue(), tailwindcss()],
+  plugins: [
+    vue(),
+    tailwindcss({
+      safelist: ['liquid-glass'],
+    }),
+  ],
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
