@@ -4,7 +4,7 @@ import vue from '@vitejs/plugin-vue'
 import tailwindcss from '@tailwindcss/vite'
 
 // https://vite.dev/config/
-const apiProxyTarget = process.env.VITE_DEV_PROXY_TARGET ?? 'http://localhost:10001'
+const apiProxyTarget = process.env.VITE_DEV_PROXY_TARGET ?? 'http://127.0.0.1:10001'
 
 export default defineConfig({
   plugins: [

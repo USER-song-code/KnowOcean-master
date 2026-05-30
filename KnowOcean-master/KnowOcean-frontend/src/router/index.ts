@@ -22,7 +22,7 @@ const router = createRouter({
     {
       path: '/app',
       component: () => import('../layouts/DefaultLayout.vue'),
-      redirect: '/app/groups',
+      redirect: '/app/documents',
       children: [
         {
           path: 'documents',

@@ -1,0 +1,51 @@
+[project]
+name = "knowocean-backend"
+version = "1.0.0"
+description = "KnowOcean RAG knowledge platform — Python backend (migrated from Spring Boot)"
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi>=0.115.0",
+    "uvicorn[standard]>=0.32.0",
+    "sqlalchemy[asyncio]>=2.0.35",
+    "asyncpg>=0.30.0",
+    "psycopg2-binary>=2.9.9",
+    "alembic>=1.13.0",
+    "pgvector>=0.3.0",
+    "pydantic>=2.10.0",
+    "pydantic-settings>=2.6.0",
+    "python-jose[cryptography]>=3.3.0",
+    "passlib[bcrypt]>=1.7.4",
+    "bcrypt>=4.0.1",
+    "python-multipart>=0.0.12",
+    "boto3>=1.35.0",
+    "elasticsearch>=8.15.0",
+    "openai>=1.55.0",
+    "httpx>=0.28.0",
+    "jinja2>=3.1.0",
+    "loguru>=0.7.0",
+    "celery>=5.4.0",
+    "redis>=5.2.0",
+    "python-docx>=1.1.0",
+    "PyMuPDF>=1.24.0",
+    "pdfplumber>=0.11.0",
+    "markdown>=3.7.0",
+    "python-dotenv>=1.0.0",
+    "sse-starlette>=2.1.0",
+    "prometheus-client>=0.21.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.3.0",
+    "pytest-asyncio>=0.24.0",
+    "httpx>=0.28.0",
+    "ruff>=0.7.0",
+]
+
+[tool.ruff]
+line-length = 120
+target-version = "py312"
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]

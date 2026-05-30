@@ -1,0 +1,23 @@
+# Environment (MUST NOT commit)
+.env
+
+# Uploads (user data)
+uploads/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+*.egg-info/
+
+# Logs
+*.log
+
+# IDE
+.vscode/
+.idea/
+
+# Resume / personal files
+_resume_debug.txt
