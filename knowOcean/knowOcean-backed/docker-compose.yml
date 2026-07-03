@@ -1,0 +1,59 @@
+# ── KnowOcean Python Backend ──
+# 仅包含后端容器，基础设施服务 (PG/ES/MinIO/Redis) 使用外部连接
+#
+# 启动: docker compose up -d
+# 查看日志: docker compose logs -f
+# 停止: docker compose down
+# 重新构建: docker compose build --no-cache && docker compose up -d
+
+version: "3.9"
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: knowocean-backend:latest
+    container_name: knowocean-backend
+    restart: unless-stopped
+
+    ports:
+      - "10001:10001"
+
+    env_file:
+      - .env.production
+
+    volumes:
+      # 持久化上传的文件（可选，如果使用 MinIO 则不需要）
+      - ./uploads:/app/uploads
+
+    # 资源限制
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+          cpus: "2"
+        reservations:
+          memory: 512M
+          cpus: "0.5"
+
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:10001/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+
+    # 日志轮转
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "50m"
+        max-file: "5"
+
+    networks:
+      - knowocean
+
+networks:
+  knowocean:
+    driver: bridge

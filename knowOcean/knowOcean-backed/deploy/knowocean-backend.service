@@ -1,0 +1,69 @@
+# ── KnowOcean Python Backend ── systemd 服务
+# 适用于传统部署 (非 Docker)
+#
+# 安装:
+#   sudo cp deploy/knowocean-backend.service /etc/systemd/system/
+#   sudo systemctl daemon-reload
+#   sudo systemctl enable knowocean-backend
+#   sudo systemctl start knowocean-backend
+#
+# 管理:
+#   sudo systemctl status knowocean-backend
+#   sudo systemctl restart knowocean-backend
+#   sudo journalctl -u knowocean-backend -f
+
+[Unit]
+Description=KnowOcean RAG Knowledge Platform Backend
+Documentation=https://github.com/your-org/knowOcean
+After=network.target
+Wants=network.target
+
+[Service]
+Type=simple
+User=www-data
+Group=www-data
+
+# 工作目录 (修改为实际路径)
+WorkingDirectory=/opt/knowocean/knowOcean-backed
+
+# 启动命令
+ExecStart=/opt/knowocean/knowOcean-backed/.venv/bin/uvicorn \
+    src.main:app \
+    --host 0.0.0.0 \
+    --port 10001 \
+    --workers 4 \
+    --proxy-headers \
+    --forwarded-allow-ips '*'
+
+# 环境变量
+EnvironmentFile=/opt/knowocean/knowOcean-backed/.env
+
+# 优雅关闭
+ExecReload=/bin/kill -HUP $MAINPID
+TimeoutStopSec=30
+KillMode=mixed
+KillSignal=SIGTERM
+
+# 自动重启
+Restart=on-failure
+RestartSec=5
+
+# 资源限制
+LimitNOFILE=65535
+MemoryMax=2G
+CPUQuota=200%
+
+# 日志
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=knowocean-backend
+
+# 安全加固
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=strict
+ProtectHome=yes
+ReadWritePaths=/opt/knowocean/knowOcean-backed/uploads
+
+[Install]
+WantedBy=multi-user.target

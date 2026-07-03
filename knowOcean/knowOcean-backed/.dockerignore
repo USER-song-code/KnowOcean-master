@@ -1,0 +1,45 @@
+# ── Docker 构建忽略文件 ──
+__pycache__/
+*.py[cod]
+*.pyo
+
+# 虚拟环境
+.venv/
+venv/
+env/
+
+# 环境变量（生产用 .env.production）
+.env
+.env.local
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# 测试
+.pytest_cache/
+.coverage
+htmlcov/
+tests/
+
+# 文档
+*.md
+!README.md
+CHANGELOG.md
+_resume_debug.txt
+
+# 临时文件
+uploads/*
+!uploads/.gitkeep
+logs/
+*.log
+
+# Git
+.git/
+.gitignore
+.gitattributes
+
+# 前端（不放在后端镜像中）
+../KnowOcean-frontend/

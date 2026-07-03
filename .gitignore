@@ -1,0 +1,44 @@
+# ── Python ──
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+*.egg-info/
+dist/
+build/
+
+# ── 环境变量（含密钥） ──
+.env
+.env.production
+.env.local
+# 注意: .env.example 是模板，须提交
+
+# ── IDE ──
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# ── 上传文件（用户数据） ──
+uploads/
+*.log
+
+# ── 临时/调试文件 ──
+_resume_debug.txt
+
+# ── 前端构建产物 ──
+KnowOcean-frontend/dist/
+KnowOcean-frontend/node_modules/
+
+# ── 压缩包 ──
+*.zip
+*.tar.gz
+*.rar
+
+# ── 堆栈转储 ──
+*.stackdump
+
+# ── OS ──
+.DS_Store
+Thumbs.db
