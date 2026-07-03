@@ -75,7 +75,7 @@ class Settings(BaseSettings):
     dev_admin_username: str = "admin"
     dev_admin_password: str = "Admin123456"
     dev_admin_email: str = "admin@KnowOcean.local"
-    mock_etl_enabled: bool = True  # 生产环境应设为 False
+    etl_enabled: bool = True  # 是否启用后台 ETL 文档处理
 
     # === 日志 ===
     log_level: str = "INFO"

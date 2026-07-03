@@ -49,19 +49,19 @@ async def lifespan(app: FastAPI):
                 session.add(admin)
                 await session.commit()
 
-    # 启动 Mock ETL 后台任务 (仅开发环境)
-    mock_etl_task = None
-    if settings.mock_etl_enabled:
+    # 启动 ETL 后台任务
+    etl_task = None
+    if settings.etl_enabled:
         try:
-            from src.document.mock_etl import start_mock_etl_loop
-            mock_etl_task = asyncio.create_task(start_mock_etl_loop())
+            from src.document.etl import start_etl_loop
+            etl_task = asyncio.create_task(start_etl_loop())
         except Exception:
             pass
 
     yield
 
-    if mock_etl_task:
-        mock_etl_task.cancel()
+    if etl_task:
+        etl_task.cancel()
     from src.database.session import engine
     await engine.dispose()
 
