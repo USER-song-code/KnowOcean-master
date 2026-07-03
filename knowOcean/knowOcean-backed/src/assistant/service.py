@@ -5,7 +5,7 @@
 import json
 import logging
 import time
-from datetime import datetime
+from datetime import datetime, timezone
 from sqlalchemy import text
 from src.database.session import async_session_factory
 from src.engine import llm
@@ -22,7 +22,7 @@ SYSTEM_PROMPT = """你是一个智能 AI 助手，名叫 KnowOcean。你可以�
 
 async def create_session(user_id: int) -> dict:
     """创建新会话"""
-    now = datetime.utcnow()
+    now = datetime.now(timezone.utc)
     async with async_session_factory() as db:
         result = await db.execute(
             text("""INSERT INTO assistant_sessions (user_id, title, status, last_message_at, created_at, updated_at)
@@ -120,7 +120,7 @@ async def get_session_context(session_id: int, recent_limit: int = 12) -> dict:
 
 async def _save_message(session_id: int, role: str, content: str, tool_mode: str = "CHAT", group_id: int | None = None) -> int:
     """保存一条消息，返回 message_id"""
-    now = datetime.utcnow()
+    now = datetime.now(timezone.utc)
     async with async_session_factory() as db:
         result = await db.execute(
             text("""INSERT INTO assistant_messages (session_id, role, tool_mode, group_id, content, created_at)
