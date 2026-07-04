@@ -15,6 +15,16 @@ from src.metrics.usage_recorder import record_llm_usage
 logger = logging.getLogger(__name__)
 settings = get_settings()
 
+
+def _utc_iso(dt: datetime | None) -> str | None:
+    """将 DB 读出的 naive datetime（实际是 UTC）转成带 Z 后缀的 ISO 字符串，
+    避免前端 new Date() 按本地时区解析。"""
+    if dt is None:
+        return None
+    if dt.tzinfo is None:
+        dt = dt.replace(tzinfo=timezone.utc)
+    return dt.isoformat()
+
 SYSTEM_PROMPT = """你是一个智能 AI 助手，名叫 KnowOcean。你可以帮助用户解答各种问题。
 请用简洁、准确的中文回答。如果用户要求搜索知识库，请在回答中说明当前暂不支持联网搜索，
 但可以基于你的训练数据提供帮助。"""
@@ -31,7 +41,7 @@ async def create_session(user_id: int) -> dict:
         )
         sid = result.scalar_one()
         await db.commit()
-        return {"sessionId": sid, "title": "新会话", "status": "ACTIVE", "lastMessageAt": None, "createdAt": now.isoformat()}
+        return {"sessionId": sid, "title": "新会话", "status": "ACTIVE", "lastMessageAt": None, "createdAt": _utc_iso(now)}
 
 
 async def list_sessions(user_id: int) -> list[dict]:
@@ -48,8 +58,8 @@ async def list_sessions(user_id: int) -> list[dict]:
         return [
             {
                 "sessionId": r.id, "title": r.title, "status": r.status,
-                "lastMessageAt": r.last_message_at.isoformat() if r.last_message_at else None,
-                "createdAt": r.created_at.isoformat() if r.created_at else None,
+                "lastMessageAt": _utc_iso(r.last_message_at),
+                "createdAt": _utc_iso(r.created_at),
             }
             for r in rows
         ]
@@ -66,8 +76,8 @@ async def get_session(session_id: int) -> dict | None:
             return None
         return {
             "sessionId": row.id, "title": row.title, "status": row.status,
-            "lastMessageAt": row.last_message_at.isoformat() if row.last_message_at else None,
-            "createdAt": row.created_at.isoformat() if row.created_at else None,
+            "lastMessageAt": _utc_iso(row.last_message_at),
+            "createdAt": _utc_iso(row.created_at),
         }
 
 
@@ -76,7 +86,7 @@ async def rename_session(session_id: int, title: str) -> bool:
     async with async_session_factory() as db:
         result = await db.execute(
             text("UPDATE assistant_sessions SET title = :t, updated_at = :now WHERE id = :sid"),
-            {"t": title, "sid": session_id, "now": datetime.utcnow()},
+            {"t": title, "sid": session_id, "now": datetime.now(timezone.utc)},
         )
         await db.commit()
         return result.rowcount > 0
@@ -87,7 +97,7 @@ async def delete_session(session_id: int) -> bool:
     async with async_session_factory() as db:
         result = await db.execute(
             text("UPDATE assistant_sessions SET status = 'DELETED', updated_at = :now WHERE id = :sid"),
-            {"sid": session_id, "now": datetime.utcnow()},
+            {"sid": session_id, "now": datetime.now(timezone.utc)},
         )
         await db.commit()
         return result.rowcount > 0
@@ -113,7 +123,7 @@ async def get_session_context(session_id: int, recent_limit: int = 12) -> dict:
                 "messageId": msg_id, "sessionId": session_id, "role": r.role,
                 "toolMode": r.tool_mode, "groupId": r.group_id,
                 "content": r.content or "", "structuredPayload": r.structured_payload,
-                "createdAt": r.created_at.isoformat() if r.created_at else None,
+                "createdAt": _utc_iso(r.created_at),
             })
         return {"summaryText": None, "recentMessages": messages}
 

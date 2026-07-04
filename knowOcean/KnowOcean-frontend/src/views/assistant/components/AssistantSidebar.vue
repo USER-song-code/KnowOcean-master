@@ -52,12 +52,15 @@ watch(
 
 function formatRelative(iso: string | null): string {
   if (!iso) return '新建'
-  const t = new Date(iso).getTime()
+  // 后端存储 UTC，但 PG TIMESTAMP WITHOUT TIME ZONE 读回无时区标记
+  // 若 iso 不带 Z 或偏移量，补 Z 避免被 JS 按本地时区解析
+  const normalized = /[+\-Zz]/.test(iso.charAt(iso.length - 1)) ? iso : iso + 'Z'
+  const t = new Date(normalized).getTime()
   const diff = Date.now() - t
   if (diff < 60_000) return '刚刚'
   if (diff < 3_600_000) return `${Math.floor(diff / 60_000)} 分钟前`
   if (diff < 86_400_000) return `${Math.floor(diff / 3_600_000)} 小时前`
-  const d = new Date(iso)
+  const d = new Date(normalized)
   const pad = (n: number) => String(n).padStart(2, '0')
   return `${d.getMonth() + 1}/${pad(d.getDate())}`
 }
