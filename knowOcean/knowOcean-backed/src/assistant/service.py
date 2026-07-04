@@ -16,6 +16,12 @@ logger = logging.getLogger(__name__)
 settings = get_settings()
 
 
+def _utc_now() -> datetime:
+    """返回去除时区的 UTC 时间，适配 PG TIMESTAMP WITHOUT TIME ZONE 列。
+    避免 asyncpg 因 aware datetime 报错。"""
+    return datetime.now(timezone.utc).replace(tzinfo=None)
+
+
 def _utc_iso(dt: datetime | None) -> str | None:
     """将 DB 读出的 naive datetime（实际是 UTC）转成带 Z 后缀的 ISO 字符串，
     避免前端 new Date() 按本地时区解析。"""
@@ -32,7 +38,7 @@ SYSTEM_PROMPT = """你是一个智能 AI 助手，名叫 KnowOcean。你可以�
 
 async def create_session(user_id: int) -> dict:
     """创建新会话"""
-    now = datetime.now(timezone.utc)
+    now = _utc_now()
     async with async_session_factory() as db:
         result = await db.execute(
             text("""INSERT INTO assistant_sessions (user_id, title, status, last_message_at, created_at, updated_at)
@@ -86,7 +92,7 @@ async def rename_session(session_id: int, title: str) -> bool:
     async with async_session_factory() as db:
         result = await db.execute(
             text("UPDATE assistant_sessions SET title = :t, updated_at = :now WHERE id = :sid"),
-            {"t": title, "sid": session_id, "now": datetime.now(timezone.utc)},
+            {"t": title, "sid": session_id, "now": _utc_now()},
         )
         await db.commit()
         return result.rowcount > 0
@@ -97,7 +103,7 @@ async def delete_session(session_id: int) -> bool:
     async with async_session_factory() as db:
         result = await db.execute(
             text("UPDATE assistant_sessions SET status = 'DELETED', updated_at = :now WHERE id = :sid"),
-            {"sid": session_id, "now": datetime.now(timezone.utc)},
+            {"sid": session_id, "now": _utc_now()},
         )
         await db.commit()
         return result.rowcount > 0
@@ -130,7 +136,7 @@ async def get_session_context(session_id: int, recent_limit: int = 12) -> dict:
 
 async def _save_message(session_id: int, role: str, content: str, tool_mode: str = "CHAT", group_id: int | None = None) -> int:
     """保存一条消息，返回 message_id"""
-    now = datetime.now(timezone.utc)
+    now = _utc_now()
     async with async_session_factory() as db:
         result = await db.execute(
             text("""INSERT INTO assistant_messages (session_id, role, tool_mode, group_id, content, created_at)
